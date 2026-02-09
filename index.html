@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0">
 <title>Kids Learning App</title>
 
 <style>
@@ -108,9 +111,9 @@ body {
 /* ===== GAME GRID ===== */
 .menu {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  padding: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  padding: 16px;
 }
 
 /* Card */
@@ -128,8 +131,9 @@ body {
 }
 
 .card img {
-  width: 120px;
-  height: 120px;
+  width: 100%;
+  max-width: 120px;
+  height: auto;
   object-fit: contain;
 }
 
