@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calendar Game</title>
+  <style>
+    .game-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: #2e7d32;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+/*level*/
+.top-level{
+  position: absolute;
+  left: 85px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+/* RIGHT (Coins) */
+.top-right {
+  position: absolute;
+
+  right: 45px;
+  top: 50%;
+  
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.coin-icon{
+  width: 50px;
+  height: 80px;
+  vertical-align: middle;
+}
+.back-btn {
+    font-size: 22px;
+    cursor: pointer;
+    margin-right: 12px;
+}
+
+.game-topbar .title {
+    flex-grow: 1;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+body {
+    padding-top: 90px; /* IMPORTANT: space for top bar */
+}
+    /* ===== RESET ===== */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fffaf0;
+      text-align: center;
+      padding-top: 70px; /* space for top bar */
+    }
+
+   
+
+    /* ===== GAME CONTENT ===== */
+    h1 {
+      color: #ff7043;
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin-top: 10px;
+    }
+
+    .question-box {
+      background: #ffffff;
+      width: 320px;
+      margin: auto;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .option {
+      display: block;
+      width: 260px; /* FIXED */
+      margin: 12px auto;
+      padding: 12px;
+      font-size: 17px;
+      border-radius: 8px;
+      border: none;
+      background: #ffe0b2;
+      cursor: pointer;
+    }
+
+    .option:hover {
+      background: #ffcc80;
+    }
+
+    #message {
+      font-size: 20px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+<!-- GAME TOP BAR -->
+<div class="game-topbar">
+  <div class="back-btn" onclick="goBack()">⬅</div>
+  <div class="top-level">
+    Lv: <span id="levelCount">0</span>
+  </div>
+  <div class="top-right">
+    <img src="image/coins.png" class="coin-icon" alt="coins">
+    <span id="coinCount">0</span>
+  </div>
+  <div class="title">Calendar Game</div>
+</div>
+
+<h1>Calendar Game</h1>
+<h2 id="question"></h2>
+
+<div id="options"></div>
+<div id="message"></div>
+
+<script>
+function goBack() {
+    window.location.href = "index.html";
+}
+
+const questions = [
+
+  // MONTH DAYS
+  { q:"How many days in January?", a:"31", o:["30","28","29"] },
+  { q:"How many days in February (normal year)?", a:"28", o:["29","30","31"] },
+  { q:"How many days in February (leap year)?", a:"29", o:["28","30","31"] },
+  { q:"How many days in March?", a:"31", o:["30","28","29"] },
+  { q:"How many days in April?", a:"30", o:["31","28","29"] },
+  { q:"How many days in May?", a:"31", o:["30","28","29"] },
+  { q:"How many days in June?", a:"30", o:["31","28","29"] },
+  { q:"How many days in July?", a:"31", o:["30","28","29"] },
+  { q:"How many days in August?", a:"31", o:["30","28","29"] },
+  { q:"How many days in September?", a:"30", o:["31","28","29"] },
+  { q:"How many days in October?", a:"31", o:["30","28","29"] },
+  { q:"How many days in November?", a:"30", o:["31","28","29"] },
+  { q:"How many days in December?", a:"31", o:["30","28","29"] },
+
+  // WEEKS
+  { q:"How many days in one week?", a:"7", o:["5","6","8"] },
+  { q:"How many days in 2 weeks?", a:"14", o:["12","13","15"] },
+  { q:"How many days in 3 weeks?", a:"21", o:["20","22","24"] },
+  { q:"How many days in 4 weeks?", a:"28", o:["29","30","31"] },
+
+  // YEARS
+  { q:"How many days in one year?", a:"365", o:["364","366","360"] },
+  { q:"How many days in a leap year?", a:"366", o:["365","364","360"] },
+
+  // MONTH COUNT
+  { q:"How many months in one year?", a:"12", o:["10","11","13"] },
+  { q:"How many months have 31 days?", a:"7", o:["6","8","9"] },
+  { q:"How many months have 30 days?", a:"4", o:["5","6","7"] },
+
+  // COMBINATIONS
+  { q:"How many days in January and February (normal year)?", a:"59", o:["58","60","61"] },
+  { q:"How many days in February and March (leap year)?", a:"60", o:["59","61","62"] },
+  { q:"How many days in two months of 31 days?", a:"62", o:["60","61","63"] },
+  { q:"How many days in three weeks?", a:"21", o:["20","22","24"] },
+  { q:"How many days in five weeks?", a:"35", o:["34","36","30"] },
+  { q:"How many days in six weeks?", a:"42", o:["40","41","43"] },
+
+  // BASIC KNOWLEDGE
+  { q:"How many days are there in a weekend?", a:"2", o:["1","3","4"] },
+  { q:"How many days are there in a fortnight?", a:"14", o:["7","21","28"] },
+  { q:"How many weeks in one year (approx)?", a:"52", o:["48","50","54"] },
+  { q:"How many days in one quarter year?", a:"91", o:["90","92","93"] },
+
+  // SIMPLE REVISION
+  { q:"Which month has least days?", a:"February", o:["January","March","December"] },
+  { q:"Which month comes after June?", a:"July", o:["May","August","April"] },
+  { q:"Which month comes before October?", a:"September", o:["August","November","July"] }
+];
+
+let unused = [...questions];
+let current;
+
+function loadQuestion() {
+  if (unused.length === 0) {
+    unused = [...questions]; // infinite restart
+  }
+
+  const index = Math.floor(Math.random() * unused.length);
+  current = unused.splice(index, 1)[0];
+
+  document.getElementById("question").innerText = current.q;
+
+  const allOptions = [current.a, ...current.o];
+  allOptions.sort(() => Math.random() - 0.5);
+
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+
+  allOptions.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.innerText = opt;
+    btn.onclick = () => checkAnswer(opt);
+    optionsDiv.appendChild(btn);
+  });
+
+  document.getElementById("message").innerText = "";
+}
+
+function checkAnswer(selected) { 
+  const winSound = 
+  document.getElementById("winSound");
+  const looseSound = 
+  document.getElementById("looseSound");
+  if (selected === current.a) {
+    winSound.currentTime = 0;
+    winSound.play();
+    addCoin();
+    document.getElementById("message").innerText = "🎉 Correct!";
+    setTimeout(loadQuestion, 800);
+  } else {
+    looseSound.currentTime = 0;
+    looseSound.play();
+    document.getElementById("message").innerText = "❌ Try again";
+  }
+}
+
+loadQuestion();
+</script>
+<script src="js/game.js"></script>
+<audio id="winSound" src="sounds/win.mp3"></audio>
+<audio id="looseSound" src="sounds/loose.mp3"></audio>
+<script>
+  localStorage.setItem("isHomePage", "no");
+</script>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kids Learning App</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: "Comic Sans MS", Arial, sans-serif;
+  background: linear-gradient(#e3f2fd, #fff);
+}
+
+/* ===== TOP BAR ===== */
+.top-bar {
+  height: 55px;
+  background: #4caf50;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  position: relative;
+}
+/*menu*/
+.top-menu{
+  position: absolute;
+  left: 12px;
+  top: 20%;
+  transform: translateY(-50%);
+  font-size: 26px;
+  cursor: pointer;
+}
+/*level*/
+.top-level{
+  position: absolute;
+  left: 85px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+/* CENTER (App Title) */
+.top-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
+
+/* RIGHT (Coins) */
+.top-right {
+  position: absolute;
+  right: 45px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.coin-icon{
+  width: 50px;
+  height: 80px;
+  vertical-align: middle;
+}
+/* Hamburger */
+.hamburger {
+  position: absolute;
+  left: 6px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* ===== SIDE MENU ===== */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 260px;
+  height: 100%;
+  background: #f5f5f5;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+  transition: 0.3s;
+  padding-top: 20px;
+}
+
+/* Close button */
+.close-btn {
+  font-size: 26px;
+  cursor: pointer;
+  padding: 10px 15px;
+  display: block;
+  text-align: right;
+}
+
+/* Menu links */
+.side-menu a {
+  display: block;
+  padding: 15px;
+  font-size: 18px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+}
+
+.side-menu a:hover {
+  background: #ddd;
+}
+
+/* ===== GAME GRID ===== */
+.menu {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 25px;
+}
+
+/* Card */
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 15px;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.card p {
+  margin: 10px 0 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.profile-page {
+  padding: 20px;
+}
+
+.back-btn {
+  font-size: 18px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.profile-card {
+  display: flex;
+  justify-content: space-between;
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.profile-info {
+  font-size: 18px;
+}
+
+.editable {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edit-icon {
+  cursor: pointer;
+}
+
+.avatar-box {
+  position: relative;
+  width: 120px;
+  height: 160px;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #4caf50;
+}
+
+.avatar-edit {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+
+  <!-- LEFT SIDE (Menu + Level) -->
+  <div class="top-menu">
+    <span class="hamburger" onclick="openMenu()">☰</span>
+    </div>
+    <div class="top-level">
+        Lv: <span id="levelCount">0</span>
+  </div>
+
+  <!-- CENTER TITLE -->
+  <div class="top-center">
+    Kids Learning App 🎓
+  </div>
+
+  <!-- RIGHT SIDE (Coins) -->
+  <div class="top-right">
+    <img src="image/coins.png" class="coin-icon" alt="coins">
+    <span id="coinCount">0</span>
+  </div>
+
+</div>
+<!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu">
+  <span class="close-btn" onclick="closeMenu()">✖</span>
+  <a href="profile.html">Profile</a>
+  <a href="feedback.html">Feedback</a>
+  <a href="social.html">Social Media</a>
+</div>
+
+<!-- MAIN MENU -->
+<div class="menu">
+
+  <a href="colours.html">
+    <div class="card">
+      <img src="image/colours.png">
+      <p>Colours</p>
+    </div>
+  </a>
+
+  <a href="numbers.html">
+    <div class="card">
+      <img src="image/numbers.png">
+      <p>Numbers</p>
+    </div>
+  </a>
+
+  <a href="calendar.html">
+    <div class="card">
+      <img src="image/calendar.png">
+      <p>Calendar</p>
+    </div>
+  </a>
+
+  <a href="animals.html">
+    <div class="card">
+      <img src="image/animals.png">
+      <p>Animals</p>
+    </div>
+  </a>
+
+  <a href="fruits.html">
+    <div class="card">
+      <img src="image/fruits.png">
+      <p>Fruits</p>
+    </div>
+  </a>
+
+  <a href="vegetables.html">
+    <div class="card">
+      <img src="image/vegetables.png">
+      <p>Vegetables</p>
+    </div>
+  </a>
+
+</div>
+
+<script>
+function openMenu() {
+  document.getElementById("sideMenu").style.left = "0";
+}
+
+function closeMenu() {
+  document.getElementById("sideMenu").style.left = "-260px";
+}
+</script>
+<script src="js/game.js"></script>
+<audio id="homeMusic" src="sounds/home.mp3" loop></audio>
+<script>
+  window.addEventListener("load", function () {
+    const music = document.getElementById("homeMusic");
+    music.play().catch(() => {
+      console.log("Autoplay blocked until user interaction");
+    });
+  });
+</script>
+
+
+<audio id="homeMusic" src="sounds/home.mp3" loop></audio>
+
+<script>
+  function playHomeMusic() {
+    document.getElementById("homeMusic").play();
+  }
+</script>
+<audio id="homeMusic" src="sounds/home.mp3" autoplay loop></audio>
+
+<script>
+  // Mark that we are on Home page
+  localStorage.setItem("isHomePage", "yes");
+
+  const music = document.getElementById("homeMusic");
+
+  // Play music only if we are on Home page
+  if (localStorage.getItem("isHomePage") === "yes") {
+    music.play().catch(() => {
+      // Browser may block, APK will allow
+    });
+  }
+</script>
+<script>
+  document.addEventListener("click", function () {
+    const music = document.getElementById("homeMusic");
+    if (music.paused) {
+      music.play();
+    }
+  }, { once: true });
+</script>
+</body>
+</html>

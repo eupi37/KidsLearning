@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Profile</title>
+
+<style>
+ .game-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: #2e7d32;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+/*level*/
+.top-level{
+  position: absolute;
+  left: 85px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+/* RIGHT (Coins) */
+.top-right {
+  position: absolute;
+
+  right: 45px;
+  top: 50%;
+  
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.coin-icon{
+  width: 50px;
+  height: 80px;
+  vertical-align: middle;
+}
+.back-btn {
+    font-size: 22px;
+    cursor: pointer;
+    margin-right: 12px;
+}
+
+.game-topbar .title {
+    flex-grow: 1;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+body {
+    padding-top: 90px; /* IMPORTANT: space for top bar */
+}
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #eaf4f4;
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        position: absolute;
+        top: 30px;
+        font-size: 24px;
+    }
+
+    /* MAIN OVAL CARD */
+    .profile-card {
+        width: 520px;
+        height: 160px;
+        background: #ffffff;
+        border-radius: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 30px 40px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    /* LEFT INFO */
+    .profile-info {
+        font-size: 18px;
+        line-height: 1.8;
+    }
+
+    .name-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+
+    .edit-name {
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    /* OVAL AVATAR (UPDATED) */
+    .avatar-box {
+        position: relative;
+        width: 100px;     
+        height: 120px;     
+        background: #cfe8e6;
+        border-radius: 50%;   
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden; /* Ensures the image stays inside the oval */
+    }
+     .coin-icon{
+      width: 50px;
+      height: 80px;
+      vertical-align: middle;
+     }
+    /* IMAGE STYLING */
+    .avatar-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* This keeps the image from stretching */
+    }
+
+    /* EDIT PENCIL */
+    .edit-avatar {
+        position: absolute;
+        bottom: 20px; /* Adjusted to fit better on the curve */
+        right: 5px;
+        background: #ffd966;
+        border-radius: 50%;
+        padding: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        z-index: 10; /* Keeps pencil above the image */
+    }
+    #childName {
+  width: 145px;          /* MEDIUM size */
+  height: 34px;
+  font-size: 16px;
+  padding: 4px 8px;
+  border: 2px solid #333;
+  border-radius: 8px;
+  outline: none;
+  background: #fff;
+}
+.avatar-container {
+  position: relative;
+  width: 120px;
+  margin: auto;
+}
+
+.avatar-container img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+#editAvatarBtn {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  border: none;
+  background: #ffc107;
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+}
+
+/* Popup */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-box {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.avatar-option {
+  width: 100px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+ <!-- GAME TOP BAR -->
+<div class="game-topbar">
+  <div class="back-btn" onclick="goBack()">⬅</div>
+  <div class="top-level">
+    Lv: <span id="levelCount">0</span>
+  </div>
+  <div class="top-right">
+    <img src="image/coins.png" class="coin-icon" alt="coins">
+    <span id="coinCount">0</span>
+  </div>
+  
+</div>
+<h2>Profile</h2>
+
+<div class="profile-card">
+
+    <div class="profile-info">
+        <div class="name-row">
+            <span class="label">Name:</span>
+            <input
+              type="text"
+              id="childName"
+              value="XYZ"
+              disabled
+              maxlenth="8"
+            >
+            <span id="editNameBtn" class="edit-name">✏️</span>
+          </div>
+       
+       
+       <p>Level : <span id="levelText">0</span></p>
+        <p>
+         <img src="image/coins.png" class="coin-icon">
+           <span id="coinsText">0</span></p>
+    </div>
+<!-- Avatar Section -->
+<div class="avatar-container">
+    <img id="avatarImage" src="image/boy.png" alt="Avatar" />
+    <button id="editAvatarBtn">✏️</button>
+  </div>
+  
+  <!-- Avatar Popup -->
+  <div id="avatarPopup" class="popup hidden">
+    <div class="popup-box">
+      <h3>Choose Avatar</h3>
+  
+      <img src="image/boy.png" class="avatar-option" data-avatar="boy" />
+      <img src="image/girl.png" class="avatar-option" data-avatar="girl" />
+  
+      <br /><br />
+      <button id="closePopup">Close</button>
+    </div>
+  </div>
+</div>
+<script>
+ function goBack() {
+  window.location.href = "index.html";
+}
+
+    const editBtn = document.getElementById("editNameBtn");
+    const nameInput = document.getElementById("childName");
+  
+    // Load saved name when page opens
+    const savedName = localStorage.getItem("childName");
+    if (savedName) {
+      nameInput.value = savedName;
+    }
+  
+    // Click pencil → enable editing
+    editBtn.addEventListener("click", () => {
+      nameInput.disabled = false;
+      nameInput.focus();
+      nameInput.select();
+    });
+  
+    // Press Enter → save name
+    nameInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        if (nameInput.value.trim() !== "") {
+          localStorage.setItem("childName", nameInput.value.trim());
+        }
+        nameInput.disabled = true;
+      }
+    });
+  </script>
+  <script>
+  const avatarImage = document.getElementById("avatarImage");
+  const editAvatarBtn = document.getElementById("editAvatarBtn");
+  const avatarPopup = document.getElementById("avatarPopup");
+  const closePopup = document.getElementById("closePopup");
+  const avatarOptions = document.querySelectorAll(".avatar-option");
+
+  // Load saved avatar
+  const savedAvatar = localStorage.getItem("avatar");
+  if (savedAvatar) {
+    avatarImage.src = savedAvatar;
+  }
+
+  // Open popup
+  editAvatarBtn.onclick = () => {
+    avatarPopup.classList.remove("hidden");
+  };
+
+  // Close popup
+  closePopup.onclick = () => {
+    avatarPopup.classList.add("hidden");
+  };
+
+  // Choose avatar
+  avatarOptions.forEach(option => {
+    option.onclick = () => {
+      const selected =
+        option.dataset.avatar === "boy"
+          ? "image/boy.png"
+          : "image/girl.png";
+
+      avatarImage.src = selected;
+      localStorage.setItem("avatar", selected);
+      avatarPopup.classList.add("hidden");
+    };
+  });
+</script>
+<script src="js/game.js"></script>
+</body>
+</html>

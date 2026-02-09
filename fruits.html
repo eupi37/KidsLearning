@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fruits Game</title>
+
+  <style>
+    .game-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: #2e7d32;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+/*level*/
+.top-level{
+  position: absolute;
+  left: 85px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+/* RIGHT (Coins) */
+.top-right {
+  position: absolute;
+
+  right: 45px;
+  top: 50%;
+  
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.coin-icon{
+  width: 50px;
+  height: 80px;
+  vertical-align: middle;
+}
+.back-btn {
+    font-size: 22px;
+    cursor: pointer;
+    margin-right: 12px;
+}
+
+.game-topbar .title {
+    flex-grow: 1;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+body {
+    padding-top: 90px; /* IMPORTANT: space for top bar */
+}
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #fff6e5;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #ff7b00;
+    }
+
+    #fruitEmoji {
+      font-size: 100px;
+      margin: 20px;
+    }
+
+    #options button {
+      display: block;
+      margin: 10px auto;
+      padding: 12px;
+      width: 220px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #ffb703;
+      color: #000;
+      cursor: pointer;
+    }
+
+    #options button:hover {
+      background: #fb8500;
+      color: white;
+    }
+
+    #message {
+      font-size: 22px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+<!-- GAME TOP BAR -->
+<div class="game-topbar">
+  <div class="back-btn" onclick="goBack()">⬅</div>
+  <div class="top-level">
+    Lv: <span id="levelCount">0</span>
+  </div>
+  <div class="top-right">
+    <img src="image/coins.png" class="coin-icon" alt="coins">
+    <span id="coinCount">0</span>
+  </div>
+  <div class="title">Fruits Game</div>
+</div>
+  <h1>🍎 Fruits Game</h1>
+
+  <div id="fruitEmoji">🍎</div>
+
+  <div id="options"></div>
+
+  <div id="message"></div>
+
+  <script>
+    function goBack() {
+    window.location.href = "index.html";
+}
+const fruits = [
+  { name: "Apple", emoji: "🍎" },
+  { name: "Banana", emoji: "🍌" },
+  { name: "Orange", emoji: "🍊" },
+  { name: "Grapes", emoji: "🍇" },
+  { name: "Mango", emoji: "🥭" },
+  { name: "Pineapple", emoji: "🍍" },
+  { name: "Strawberry", emoji: "🍓" },
+  { name: "Watermelon", emoji: "🍉" },
+  { name: "Cherry", emoji: "🍒" },
+  { name: "Peach", emoji: "🍑" },
+  { name: "Pear", emoji: "🍐" },
+  { name: "Kiwi", emoji: "🥝" },
+  { name: "Lemon", emoji: "🍋" },
+
+  { name: "Papaya", emoji: "🍈" },
+  { name: "Coconut", emoji: "🥥" },
+  
+  { name: "Guava", emoji: "🍈" },
+  { name: "Lychee", emoji: "🍒" },
+
+  { name: "Dragon Fruit", emoji: "🐉" },
+
+  { name: "Custard Apple", emoji: "🍏" },
+  { name: "Star Fruit", emoji: "⭐" },
+  { name: "Avocado", emoji: "🥑" },
+  { name: "Date", emoji: "🌴" },
+  
+  
+];
+
+// duplicate automatically to reach ~120
+while (fruits.length < 120) {
+  fruits.push(...fruits.slice(0, 120 - fruits.length));
+}
+
+let index = 0;
+
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+function loadQuestion() {
+  const correct = fruits[index];
+  document.getElementById("fruitEmoji").innerText = correct.emoji;
+
+  let options = [correct.name];
+  let others = fruits.filter(f => f.name !== correct.name).map(f => f.name);
+  shuffle(others);
+
+  options.push(others[0], others[1], others[2]);
+  shuffle(options);
+
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.innerText = opt;
+    btn.onclick = () => checkAnswer(opt);
+    optionsDiv.appendChild(btn);
+  });
+
+  document.getElementById("message").innerText = "";
+}
+
+function checkAnswer(answer) {
+  const winSound = 
+  document.getElementById("winSound");
+  const looseSound = 
+  document.getElementById("looseSound");
+  if (answer === fruits[index].name) { 
+    winSound.currentTime = 0;
+    winSound.play();
+    addCoin();
+    document.getElementById("message").innerText = "🎉 Correct!";
+    index++;
+    if (index >= fruits.length) index = 0; // infinite repeat
+    setTimeout(loadQuestion, 800);
+  } else {
+    looseSound.currentTime = 0;
+    looseSound.play();
+    document.getElementById("message").innerText = "❌ Try again!";
+  }
+}
+
+loadQuestion();
+
+  </script>
+<script src="js/game.js"></script>
+<audio id="winSound" src="sounds/win.mp3"></audio>
+<audio id="looseSound" src="sounds/loose.mp3"></audio>
+<script>
+  localStorage.setItem("isHomePage", "no");
+</script>
+</body>
+</html>

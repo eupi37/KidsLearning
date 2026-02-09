@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Colours Game</title>
+
+<style>.game-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background: #2e7d32;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+/*level*/
+.top-level{
+  position: absolute;
+  left: 85px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+/* RIGHT (Coins) */
+.top-right {
+  position: absolute;
+
+  right: 45px;
+  top: 50%;
+  
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.coin-icon{
+  width: 50px;
+  height: 80px;
+  vertical-align: middle;
+}
+.back-btn {
+  font-size: 22px;
+  cursor: pointer;
+  margin-right: 12px;
+}
+
+.game-topbar .title {
+  flex-grow: 1;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+body {
+  padding-top: 90px; /* IMPORTANT: space for top bar */
+}
+
+body {
+  font-family: Arial;
+  background: #f2f2f2;
+  text-align: center;
+}
+
+.box {
+  width: 300px;
+  background: white;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.color-box {
+  width: 100px;
+  height: 100px;
+  margin: 20px auto;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin: 6px 0;
+  font-size: 18px;
+  background: #e8c9a8;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#msg {
+  margin-top: 10px;
+  font-size: 18px;
+  height: 24px;
+}
+</style>
+</head>
+
+<body>
+<!-- GAME TOP BAR -->
+<div class="game-topbar">
+  <div class="back-btn" onclick="goBack()">⬅</div>
+  <div class="top-level">
+    Lv: <span id="levelCount">0</span>
+  </div>
+  <div class="top-right">
+    <img src="image/coins.png" class="coin-icon" alt="coins">
+    <span id="coinCount">0</span>
+  </div>
+  <div class="title">Colours Game</div>
+</div>
+<div class="box">
+  <h2>Colours</h2>
+
+  <div class="color-box" id="colorBox"></div>
+
+  <div id="options"></div>
+
+  <div id="msg"></div>
+</div>
+
+<script>
+  function goBack() {
+    window.location.href = "index.html";
+}
+/* ---------- EXACT 120 QUESTIONS ---------- */
+
+const colors = [
+  { name: "Red", value: "red" },
+  { name: "Green", value: "green" },
+  { name: "Blue", value: "blue" },
+  { name: "Yellow", value: "yellow" },
+  { name: "Orange", value: "orange" },
+  { name: "Purple", value: "purple" },
+  { name: "Pink", value: "pink" },
+  { name: "Brown", value: "brown" },
+  { name: "Black", value: "black" },
+  { name: "White", value: "white" },
+  { name: "Gray", value: "gray" },
+  { name: "Cyan", value: "cyan" },
+  { name: "Magenta", value: "magenta" },
+  { name: "Lime", value: "lime" },
+  { name: "Teal", value: "teal" }
+];
+
+/* Create EXACT 120 questions */
+let questions = [];
+for (let i = 0; i < 8; i++) {
+  colors.forEach(c => {
+    questions.push({ name: c.name, value: c.value });
+  });
+}
+// 15 × 8 = 120 ✅
+
+/* ---------- SHUFFLE ---------- */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+shuffle(questions);
+
+let index = 0;
+
+/* ---------- LOAD QUESTION ---------- */
+function loadQuestion() {
+  if (index === 120) {
+    shuffle(questions); // infinite loop
+    index = 0;
+  }
+
+  document.getElementById("msg").innerText = "";
+
+  let q = questions[index];
+  document.getElementById("colorBox").style.background = q.value;
+
+  let options = new Set();
+  options.add(q.name);
+
+  while (options.size < 4) {
+    let r = colors[Math.floor(Math.random() * colors.length)];
+    options.add(r.name);
+  }
+
+  let optDiv = document.getElementById("options");
+  optDiv.innerHTML = "";
+
+  [...options].sort(() => Math.random() - 0.5).forEach(o => {
+    let b = document.createElement("button");
+    b.innerText = o;
+    b.onclick = () => checkAnswer(o);
+    optDiv.appendChild(b);
+  });
+}
+
+/* ---------- CHECK ANSWER ---------- */
+function checkAnswer(ans) {
+  const winSound = 
+  document.getElementById("winSound");
+  const looseSound = 
+  document.getElementById("looseSound");
+  if (ans === questions[index].name) {
+    winSound.currentTime = 0;
+    winSound.play();
+    addCoin();
+    document.getElementById("msg").innerText = "🎉 Correct!";
+    index++;
+    setTimeout(loadQuestion, 600);
+  } else {
+    looseSound.currentTime = 0;
+    looseSound.play();
+    document.getElementById("msg").innerText = "❌ Try Again";
+  }
+}
+
+loadQuestion();
+</script>
+<script src="js/game.js"></script>
+<audio id="winSound" src="sounds/win.mp3"></audio>
+<audio id="looseSound" src="sounds/loose.mp3"></audio>
+<script>
+  localStorage.setItem("isHomePage", "no");
+</script>
+</body>
+</html>

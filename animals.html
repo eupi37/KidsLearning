@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animals Game</title>
+    <style>
+      /* ===== GAME TOP BAR ===== */
+.game-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: #2e7d32;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+/*level*/
+.top-level{
+  position: absolute;
+  left: 85px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+/* RIGHT (Coins) */
+.top-right {
+  position: absolute;
+
+  right: 45px;
+  top: 50%;
+  
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.coin-icon{
+  width: 50px;
+  height: 80px;
+  vertical-align: middle;
+}
+.back-btn {
+    font-size: 22px;
+    cursor: pointer;
+    margin-right: 12px;
+}
+
+.game-topbar .title {
+    flex-grow: 1;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+body {
+    padding-top: 90px; /* IMPORTANT: space for top bar */
+}
+      body {
+          font-family: Arial, sans-serif;
+          background: #fffaf0;
+          text-align: center;
+          padding-top: 40px;
+      }
+      
+      h1 {
+          color: #ff7043;
+          font-size: 32px;
+          margin-bottom: 20px;
+      }
+      
+      .game-box {
+          background: #ffffff;
+          width: 320px;
+          margin: auto;
+          padding: 25px;
+          border-radius: 15px;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      }
+      
+      .animal-box {
+          font-size: 90px;
+          margin: 20px 0;
+      }
+      
+      button {
+          width: 260px;
+          padding: 10px;
+          margin: 10px auto;
+          font-size: 17px;
+          border-radius: 8px;
+          border: none;
+          background: #ffe0b2;
+          cursor: pointer;
+          display: block;
+      }
+      
+      button:hover {
+          background: #ffcc80;
+      }
+      </style>
+</head>
+<body>
+<!-- GAME TOP BAR -->
+<div class="game-topbar">
+  <div class="back-btn" onclick="goBack()">⬅</div>
+  <div class="top-level">
+    Lv: <span id="levelCount">0</span>
+  </div>
+  <div class="top-right">
+    <img src="image/coins.png" class="coin-icon" alt="coins">
+    <span id="coinCount">0</span>
+  </div>
+  <div class="title">Animals Game</div>
+</div>
+
+
+</div>
+<h1>🐾 Guess the Animal</h1>
+
+<div class="animal-box" id="animalEmoji">🐶</div>
+<div id="options"></div>
+<div id="message"></div>
+
+<script>
+   
+function goBack() {
+    window.location.href = "index.html";
+}
+
+const animals = [
+  { name: "Lion", emoji: "🦁" },
+  { name: "Tiger", emoji: "🐯" },
+  { name: "Elephant", emoji: "🐘" },
+  { name: "Giraffe", emoji: "🦒" },
+  { name: "Zebra", emoji: "🦓" },
+  { name: "Monkey", emoji: "🐵" },
+  { name: "Panda", emoji: "🐼" },
+  { name: "Bear", emoji: "🐻" },
+  { name: "Cow", emoji: "🐮" },
+  { name: "Horse", emoji: "🐴" },
+  { name: "Dog", emoji: "🐶" },
+  { name: "Cat", emoji: "🐱" },
+  { name: "Rabbit", emoji: "🐰" },
+  { name: "Mouse", emoji: "🐭" },
+  { name: "Koala", emoji: "🐨" },
+  { name: "Pig", emoji: "🐷" },
+  { name: "Frog", emoji: "🐸" },
+  { name: "Duck", emoji: "🦆" },
+  { name: "Owl", emoji: "🦉" },
+  { name: "Eagle", emoji: "🦅" },
+  { name: "Parrot", emoji: "🦜" },
+  { name: "Sheep", emoji: "🐑" },
+  { name: "Goat", emoji: "🐐" },
+  { name: "Camel", emoji: "🐪" },
+  { name: "Buffalo", emoji: "🐃" },
+  { name: "Leopard", emoji: "🐆" },
+  { name: "Rhinoceros", emoji: "🦏" },
+  { name: "Hippopotamus", emoji: "🦛" },
+  { name: "Crocodile", emoji: "🐊" },
+  { name: "Turtle", emoji: "🐢" },
+  { name: "Snake", emoji: "🐍" },
+  { name: "Lizard", emoji: "🦎" },
+  { name: "Whale", emoji: "🐳" },
+  { name: "Dolphin", emoji: "🐬" },
+  { name: "Shark", emoji: "🦈" },
+  { name: "Octopus", emoji: "🐙" },
+  { name: "Crab", emoji: "🦀" },
+  { name: "Ant", emoji: "🐜" },
+  { name: "Bee", emoji: "🐝" },
+  
+  { name: "Spider", emoji: "🕷️" },
+  { name: "Snail", emoji: "🐌" },
+  { name: "Kangaroo", emoji: "🦘" },
+  { name: "Penguin", emoji: "🐧" },
+ 
+  { name: "Hedgehog", emoji: "🦔" },
+  { name: "Raccoon", emoji: "🦝" },
+  { name: "Otter", emoji: "🦦" },
+  { name: "Squirrel", emoji: "🐿️" },
+  { name: "Goose", emoji: "🦢" },
+  { name: "Flamingo", emoji: "🦩" },
+  { name: "Peacock", emoji: "🦚" },
+  { name: "Turkey", emoji: "🦃" },
+  { name: "Seahorse", emoji: "🦑" },
+  { name: "Clownfish", emoji: "🐠" },
+  { name: "Goldfish", emoji: "🐟" },
+  { name: "Starfish", emoji: "⭐" },
+  { name: "Porcupine", emoji: "🦔" },
+  { name: "Chimpanzee", emoji: "🦧" },
+  { name: "Baboon", emoji: "🦍" },
+  { name: "Macaw", emoji: "🦜" },
+  
+  
+  
+  { name: "Vulture", emoji: "🦅" },
+  { name: "Bat", emoji: "🦇" },
+
+  { name: "Cheetah", emoji: "🐆" },
+  
+  { name: "Alligator", emoji: "🐊" },
+  
+ 
+ 
+  { name: "Chameleon", emoji: "🦎" },
+
+  { name: "Fennec Fox", emoji: "🦊" },
+  
+  { name: "Skunk", emoji: "🦨" },
+  { name: "Meerkat", emoji: "🦦" },
+  
+  { name: "Tapir", emoji: "🦏" },
+ 
+ 
+  { name: "Yak", emoji: "🐂" },
+  { name: "Reindeer", emoji: "🦌" },
+  { name: "Swan", emoji: "🦢" },
+ 
+  { name: "Raven", emoji: "🐦" },
+
+  { name: "Jackal", emoji: "🐕" },
+
+  
+ 
+  { name: "Squid", emoji: "🦑" },
+
+  
+  { name: "Starfish", emoji: "⭐" },
+  
+  
+  { name: "Otter", emoji: "🦦" },
+  { name: "Hedgehog", emoji: "🦔" },
+  { name: "Squirrel", emoji: "🐿️" },
+  { name: "Raccoon", emoji: "🦝" },
+  { name: "Mole", emoji: "🦦" },
+  { name: "Flamingo", emoji: "🦩" },
+  { name: "Peacock", emoji: "🦚" },
+  
+];
+
+let index = 0;
+
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+function loadQuestion() {
+  const correctAnimal = animals[index];
+  document.getElementById("animalEmoji").innerText = correctAnimal.emoji;
+
+  let options = [correctAnimal.name];
+  let others = animals.filter(a => a.name !== correctAnimal.name).map(a => a.name);
+  shuffle(others);
+
+  options.push(others[0], others[1], others[2]);
+  shuffle(options);
+
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+
+  options.forEach(option => {
+    const btn = document.createElement("button");
+    btn.innerText = option;
+    btn.onclick = () => checkAnswer(option);
+    optionsDiv.appendChild(btn);
+  });
+
+  document.getElementById("message").innerText = "";
+}
+
+function checkAnswer(answer) {
+  const winSound = 
+  document.getElementById("winSound");
+  const looseSound = 
+  document.getElementById("looseSound");
+  if (answer === animals[index].name) { 
+    winSound.currentTime = 0;
+    winSound.play();
+    addCoin();
+    document.getElementById("message").innerText = "🎉 Correct!";
+    index++;
+    if (index >= animals.length) index = 0; // infinite loop
+    setTimeout(loadQuestion, 800);
+  } else {
+    looseSound.currentTime = 0;
+    looseSound.play();
+    document.getElementById("message").innerText = "❌ Try again!";
+  }
+}
+
+loadQuestion();
+
+
+</script>
+<script src="js/game.js"></script>
+<audio id="winSound" src="sounds/win.mp3"></audio>
+<audio id="looseSound" src="sounds/loose.mp3"></audio>
+<script>
+  localStorage.setItem("isHomePage", "no");
+</script>
+
+
+</body>
+</html>

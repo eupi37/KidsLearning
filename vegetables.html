@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Vegetables Game</title>
+
+<style>
+  .game-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: #2e7d32;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+/*level*/
+.top-level{
+  position: absolute;
+  left: 85px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+/* RIGHT (Coins) */
+.top-right {
+  position: absolute;
+
+  right: 45px;
+  top: 50%;
+  
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.coin-icon{
+  width: 50px;
+  height: 80px;
+  vertical-align: middle;
+}
+.back-btn {
+    font-size: 22px;
+    cursor: pointer;
+    margin-right: 12px;
+}
+
+.game-topbar .title {
+    flex-grow: 1;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+body {
+    padding-top: 90px; /* IMPORTANT: space for top bar */
+}
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #e8f5e9;
+  padding: 20px;
+}
+
+h1 {
+  color: #2e7d32;
+}
+
+#vegEmoji {
+  font-size: 90px;
+  margin: 20px;
+}
+
+#options button {
+  display: block;
+  margin: 10px auto;
+  padding: 12px;
+  width: 250px;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  background: #66bb6a;
+  cursor: pointer;
+}
+
+#options button:hover {
+  background: #388e3c;
+  color: white;
+}
+
+#message {
+  font-size: 22px;
+  margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+<!-- GAME TOP BAR -->
+<div class="game-topbar">
+  <div class="back-btn" onclick="goBack()">⬅</div>
+  <div class="top-level">
+    Lv: <span id="levelCount">0</span>
+  </div>
+  <div class="top-right">
+    <img src="image/coins.png" class="coin-icon" alt="coins">
+    <span id="coinCount">0</span>
+  </div>
+  <div class="title">Vegetables Game</div>
+</div>
+<h1>🥕 Vegetables Game</h1>
+
+<div id="vegEmoji">🥕</div>
+<div id="options"></div>
+<div id="message"></div>
+
+<script>
+   function goBack() {
+    window.location.href = "index.html";
+}
+const vegetables = [
+{n:"Carrot",e:"🥕"},{n:"Potato",e:"🥔"},{n:"Tomato",e:"🍅"},{n:"Onion",e:"🧅"},
+{n:"Garlic",e:"🧄"},{n:"Cabbage",e:"🥬"},{n:"Cauliflower",e:"🥦"},
+{n:"Broccoli",e:"🥦"},{n:"Beetroot",e:"🍠"}
+,{n:"Pumpkin",e:"🎃"},{n:"Cucumber",e:"🥒"},{n:"Brinjal",e:"🍆"},
+{n:"Sweet Corn",e:"🌽"},
+{n:"Baby Corn",e:"🌽"},
+{n:"Spring Onion",e:"🧅"},
+{n:"Mint",e:"🌿"},
+{n:"Avocado",e:"🥑"},{n:"Bamboo Shoot",e:"🎋"},
+{n:"Banana Flower",e:"🌸"},{n:"Banana Stem",e:"🌱"},
+{n:"Mushroom",e:"🍄"},
+{n:"Zucchini Flower",e:"🌼"}
+]; // EXACTLY 120
+
+function shuffle(a){return a.sort(()=>Math.random()-0.5);}
+
+let order=[],i=0;
+
+function startCycle(){
+  order=shuffle([...vegetables]);
+  i=0;
+}
+
+function loadQ(){
+  if(i>=order.length) startCycle();
+  let c=order[i];
+  document.getElementById("vegEmoji").innerText=c.e;
+
+  let opts=[c.n];
+  let others=vegetables.filter(v=>v.n!==c.n).map(v=>v.n);
+  shuffle(others);
+  opts.push(others[0],others[1],others[2]);
+  shuffle(opts);
+
+  let box=document.getElementById("options");
+  box.innerHTML="";
+  opts.forEach(o=>{
+    let b=document.createElement("button");
+    b.innerText=o;
+    b.onclick=()=>check(o);
+    box.appendChild(b);
+  });
+  document.getElementById("message").innerText="";
+}
+
+function check(a){
+  const winSound = 
+  document.getElementById("winSound");
+  const looseSound = 
+  document.getElementById("looseSound");
+  if(a===order[i].n){ 
+    winSound.currentTime = 0;
+    winSound.play();
+    addCoin();
+    document.getElementById("message").innerText="🎉 Correct!";
+    i++;
+    setTimeout(loadQ,600);
+  }else{
+    looseSound.currentTime = 0;
+    looseSound.play();
+    document.getElementById("message").innerText="❌ Try again!";
+  }
+}
+
+startCycle();
+loadQ();
+</script>
+<script src="js/game.js"></script>
+<audio id="winSound" src="sounds/win.mp3"></audio>
+<audio id="looseSound" src="sounds/loose.mp3"></audio>
+<script>
+  localStorage.setItem("isHomePage", "no");
+</script>
+</body>
+</html>

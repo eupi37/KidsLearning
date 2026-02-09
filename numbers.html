@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Numbers Game</title>
+
+<style>
+     .game-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: #2e7d32;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+/*level*/
+.top-level{
+  position: absolute;
+  left: 85px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+/* RIGHT (Coins) */
+.top-right {
+  position: absolute;
+
+  right: 45px;
+  top: 50%;
+  
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.coin-icon{
+  width: 50px;
+  height: 80px;
+  vertical-align: middle;
+}
+.back-btn {
+    font-size: 22px;
+    cursor: pointer;
+    margin-right: 12px;
+}
+
+.game-topbar .title {
+    flex-grow: 1;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+body {
+    padding-top: 90px; /* IMPORTANT: space for top bar */
+}
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    text-align: center;
+}
+
+.container {
+    background: white;
+    width: 320px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+h2 {
+    margin-bottom: 15px;
+}
+
+.question {
+    font-size: 28px;
+    margin: 20px 0;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    font-size: 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #e8c9a8;
+}
+
+#message {
+    font-size: 18px;
+    margin-top: 10px;
+    height: 24px;
+}
+</style>
+</head>
+
+<body>
+<!-- GAME TOP BAR -->
+<div class="game-topbar">
+    <div class="back-btn" onclick="goBack()">⬅</div>
+    <div class="top-level">
+        Lv: <span id="levelCount">0</span>
+      </div>
+      <div class="top-right">
+        <img src="image/coins.png" class="coin-icon" alt="coins">
+        <span id="coinCount">0</span>
+      </div>
+    <div class="title">Numbers Game</div>
+  </div>
+<div class="container">
+    <h2>Numbers</h2>
+
+    <div class="question" id="questionText"></div>
+
+    <div id="options"></div>
+
+    <div id="message"></div>
+</div>
+
+<script>
+    function goBack() {
+    window.location.href = "index.html";
+}
+/* ---------- CREATE 120 SINGLE-DIGIT QUESTIONS ---------- */
+
+let questions = [];
+
+function generateQuestions() {
+    questions = [];
+    let operators = ["+", "-", "*", "/"];
+
+    while (questions.length < 120) {
+        let a = Math.floor(Math.random() * 9) + 1;
+        let b = Math.floor(Math.random() * 9) + 1;
+        let op = operators[Math.floor(Math.random() * operators.length)];
+        let answer;
+
+        if (op === "+") answer = a + b;
+
+        if (op === "-") {
+            if (a < b) continue;
+            answer = a - b;
+        }
+
+        if (op === "*") answer = a * b;
+
+        if (op === "/") {
+            if (a % b !== 0) continue;
+            answer = a / b;
+        }
+
+        let text = `${a} ${op} ${b}`;
+
+        if (!questions.some(q => q.text === text)) {
+            questions.push({ text, answer });
+        }
+    }
+}
+
+/* ---------- SHUFFLE ---------- */
+function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+}
+
+generateQuestions();
+shuffle(questions);
+
+let currentIndex = 0;
+
+/* ---------- LOAD QUESTION ---------- */
+function loadQuestion() {
+    if (currentIndex >= questions.length) {
+        shuffle(questions);   // infinite repeat
+        currentIndex = 0;
+    }
+
+    document.getElementById("message").innerText = "";
+
+    let q = questions[currentIndex];
+    document.getElementById("questionText").innerText = q.text + " = ?";
+
+    let answers = new Set();
+    answers.add(q.answer);
+
+    while (answers.size < 4) {
+        let wrong = q.answer + Math.floor(Math.random() * 5 - 2);
+        if (wrong >= 0) answers.add(wrong);
+    }
+
+    let optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+
+    [...answers].sort(() => Math.random() - 0.5).forEach(ans => {
+        let btn = document.createElement("button");
+        btn.innerText = ans;
+        btn.onclick = () => checkAnswer(ans);
+        optionsDiv.appendChild(btn);
+    });
+}
+
+/* ---------- CHECK ANSWER (SAME LOGIC AS ANIMALS GAME) ---------- */
+function checkAnswer(selected) {
+    const winSound = 
+  document.getElementById("winSound");
+  const looseSound = 
+  document.getElementById("looseSound");
+    let correct = questions[currentIndex].answer;
+
+    if (selected === correct) { 
+        winSound.currentTime = 0;
+    winSound.play(); 
+        addCoin();
+        document.getElementById("message").innerText = "🎉 Correct!";
+        currentIndex++;
+        setTimeout(loadQuestion, 600);
+    } else {
+        looseSound.currentTime = 0;
+    looseSound.play();
+        document.getElementById("message").innerText = "❌ Try Again";
+    }
+}
+
+loadQuestion();
+</script>
+<script src="js/game.js"></script>
+<audio id="winSound" src="sounds/win.mp3"></audio>
+<audio id="looseSound" src="sounds/loose.mp3"></audio>
+<script>
+    localStorage.setItem("isHomePage", "no");
+  </script>
+</body>
+</html>

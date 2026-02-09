@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Social Media</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #e3f2fd;
+    text-align: center;
+}
+
+/* Top bar */
+.header {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background: #4caf50;
+    color: white;
+    font-size: 22px;
+}
+
+/* Back arrow */
+.back {
+    font-size: 26px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+/* Instagram card */
+.card {
+    margin-top: 60px;
+    display: inline-block;
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+.card img {
+    width: 120px;
+    height: 120px;
+}
+
+.card p {
+    font-size: 20px;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <span class="back" onclick="history.back()">←</span>
+    Social Media
+</div>
+
+<!-- Instagram Button -->
+<div class="card" onclick="openInstagram()">
+    <img src="image/instagram.png" alt="Instagram">
+    <p>Instagram</p>
+</div>
+
+<script>
+function openInstagram() {
+    window.location.href = "https://www.instagram.com/prakash3497_?igsh=cTBpN2huNDZrejg=";
+}
+</script>
+
+</body>
+</html>
