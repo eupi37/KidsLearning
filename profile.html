@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Profile</title>
-
 <style>
- .game-topbar {
+  /* TOP BAR FIXES */
+  .game-topbar {
     position: fixed;
     top: 0;
     left: 0;
@@ -19,195 +19,100 @@
     padding: 0 12px;
     box-sizing: border-box;
     z-index: 1000;
-}
-/*level*/
-.top-level{
-  position: absolute;
-  left: 85px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 18px;
-}
-/* RIGHT (Coins) */
-.top-right {
-  position: absolute;
+  }
 
-  right: 45px;
-  top: 50%;
+  .top-level { margin-left: 40px; font-size: 18px; }
+  .top-right { margin-left: auto; display: flex; align-items: center; gap: 5px; }
   
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-.coin-icon{
-  width: 50px;
-  height: 80px;
-  vertical-align: middle;
-}
-.back-btn {
-    font-size: 22px;
+  /* Image sizing for coins */
+  .coin-icon { width: 24px; height: 24px; vertical-align: middle; }
+
+  body {
+    margin: 0;
+    padding-top: 60px;
+    background: #eaf4f4;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h2 { margin: 20px 0; font-size: 22px; color: #333; }
+
+  /* COMPACT PROFILE CARD */
+  .profile-card {
+    width: 90%; /* Responsive width */
+    max-width: 400px; /* Limits size on PC */
+    background: #ffffff;
+    border-radius: 20px; /* Modern rounded corners */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+  }
+
+  .profile-info {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  #childName {
+    width: 100px; /* Smaller input */
+    height: 28px;
+    font-size: 14px;
+    padding: 2px 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  /* SMALLER AVATAR */
+  .avatar-container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+  }
+
+  #avatarImage {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #cfe8e6;
+    object-fit: cover;
+  }
+
+  #editAvatarBtn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: none;
+    background: #ffc107;
+    border-radius: 50%;
+    padding: 4px;
+    font-size: 12px;
     cursor: pointer;
-    margin-right: 12px;
-}
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
 
-.game-topbar .title {
-    flex-grow: 1;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-body {
-    padding-top: 90px; /* IMPORTANT: space for top bar */
-}
-    body {
-        margin: 0;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #eaf4f4;
-        font-family: Arial, sans-serif;
-    }
-
-    h2 {
-        position: absolute;
-        top: 30px;
-        font-size: 24px;
-    }
-
-    /* MAIN OVAL CARD */
-    .profile-card {
-        width: 90%;
-       max-width: 400px;
-     
-        height: auto;
-        background: #ffffff;
-        border-radius: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 30px 40px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-
-    /* LEFT INFO */
-    .profile-info {
-        font-size: 18px;
-        line-height: 1.8;
-    }
-
-    .name-row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 14px;
-    }
-
-    .edit-name {
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    /* OVAL AVATAR (UPDATED) */
-    .avatar-box {
-        position: relative;
-        width: 100px;     
-        height: 120px;     
-        background: #cfe8e6;
-        border-radius: 50%;   
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden; /* Ensures the image stays inside the oval */
-    }
-     .coin-icon{
-      width: 50px;
-      height: 80px;
-      vertical-align: middle;
-     }
-    /* IMAGE STYLING */
-    .avatar-box img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* This keeps the image from stretching */
-    }
-
-    /* EDIT PENCIL */
-    .edit-avatar {
-        position: absolute;
-        bottom: 20px; /* Adjusted to fit better on the curve */
-        right: 5px;
-        background: #ffd966;
-        border-radius: 50%;
-        padding: 6px;
-        font-size: 14px;
-        cursor: pointer;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-        z-index: 10; /* Keeps pencil above the image */
-    }
-    #childName {
-  width: 145px;          /* MEDIUM size */
-  height: 34px;
-  font-size: 16px;
-  padding: 4px 8px;
-  border: 2px solid #333;
-  border-radius: 8px;
-  outline: none;
-  background: #fff;
-}
-.avatar-container {
-  position: relative;
-  width: 120px;
-  margin: auto;
-}
-
-.avatar-container img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-}
-
-#editAvatarBtn {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  border: none;
-  background: #ffc107;
-  border-radius: 50%;
-  padding: 6px;
-  cursor: pointer;
-}
-
-/* Popup */
-.popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.popup-box {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  text-align: center;
-}
-
-.avatar-option {
-  width: 100px;
-  margin: 10px;
-  cursor: pointer;
-}
-
-.hidden {
-  display: none;
-}
+  /* POPUP STYLES */
+  .popup {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 2000;
+  }
+  .popup-box { background: white; padding: 20px; border-radius: 15px; text-align: center; width: 80%; max-width: 300px;}
+  .avatar-option { width: 70px; margin: 10px; cursor: pointer; border-radius: 50%; }
+  .hidden { display: none; }
 </style>
 </head>
 
@@ -338,6 +243,7 @@ body {
 </body>
 
 </html>
+
 
 
 
