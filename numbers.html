@@ -194,9 +194,12 @@ function loadQuestion() {
     answers.add(q.answer);
 
     while (answers.size < 4) {
-        let wrong = q.answer + Math.floor(Math.random() * 5 - 2);
-        if (wrong >= 0) answers.add(wrong);
+    let wrong = Math.floor(Math.random() * 20);
+
+    if (wrong !== q.answer) {
+        answers.add(wrong);
     }
+  }
 
     let optionsDiv = document.getElementById("options");
     optionsDiv.innerHTML = "";
@@ -242,5 +245,6 @@ loadQuestion();
 </body>
 
 </html>
+
 
 
