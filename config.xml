@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.kidskinder.app" version="1.0.0"
+    xmlns="http://www.w3.org/ns/widgets"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <name>Kids Kinder</name>
+
+    <description>
+        Kids learning app
+    </description>
+
+    <author email="adityaprakash3497@gmail.com">
+        Kids Kinder
+    </author>
+
+    <content src="index.html" />
+
+    <platform name="android">
+        <allow-intent href="http://*/*"/>
+        <allow-intent href="https://*/*"/>
+    </platform>
+
+</widget>
