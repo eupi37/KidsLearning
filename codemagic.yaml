@@ -1,0 +1,13 @@
+workflows:
+  cordova-android-build:
+    name: Cordova Android Build
+    max_build_duration: 60
+    environment:
+      node: 18
+    scripts:
+      - npm install -g cordova
+      - cordova platform add android
+      - cordova build android --release
+    artifacts:
+      - platforms/android/app/build/outputs/**/*.apk
+      - platforms/android/app/build/outputs/**/*.aab
